@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Ubnt\UcrmPluginSdk\Service;
 
+use Ubnt\UcrmPluginSdk\Exception\InvalidPluginRootPathException;
+
 class PluginConfigManagerTest extends \PHPUnit\Framework\TestCase
 {
     public function testLoadConfig(): void
@@ -25,9 +27,22 @@ class PluginConfigManagerTest extends \PHPUnit\Framework\TestCase
             'lastProcessedTimestamp' => null,
         ];
 
-        $pluginOptionsManager = new PluginConfigManager(__DIR__ . '/../../files');
+        $pluginOptionsManager = new PluginConfigManager(__DIR__ . '/../../files_enabled');
         $config = $pluginOptionsManager->loadConfig();
 
         self::assertSame($expectedOptions, $config);
+    }
+
+    public function testFileNotFound(): void
+    {
+        $exception = null;
+
+        try {
+            $pluginOptionsManager = new PluginConfigManager(__DIR__);
+            $pluginOptionsManager->loadConfig();
+        } catch (InvalidPluginRootPathException $exception) {
+        }
+
+        self::assertInstanceOf(InvalidPluginRootPathException::class, $exception);
     }
 }

@@ -18,12 +18,12 @@ class PluginLogManagerTest extends \PHPUnit\Framework\TestCase
     {
         parent::setUpBeforeClass();
 
-        @unlink(__DIR__ . '/../../files/data/plugin.log');
+        @unlink(__DIR__ . '/../../files_enabled/data/plugin.log');
     }
 
     public function testLogOperations(): void
     {
-        $pluginLogManager = new PluginLogManager(__DIR__ . '/../../files');
+        $pluginLogManager = new PluginLogManager(__DIR__ . '/../../files_enabled');
         self::assertSame('', $pluginLogManager->getLog());
 
         $pluginLogManager->appendLog('This is first test message.');

@@ -15,10 +15,48 @@ namespace Ubnt\UcrmPluginSdk\Service;
 use Eloquent\Phony\Phpunit\Phony;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
+use Ubnt\UcrmPluginSdk\Exception\ConfigurationException;
+use Ubnt\UcrmPluginSdk\Exception\InvalidPluginRootPathException;
 
 class UcrmApiTest extends \PHPUnit\Framework\TestCase
 {
     private const TEST_APP_KEY = 'testAppKey/xyz';
+
+    public function testCreate(): void
+    {
+        $exception = null;
+
+        try {
+            UcrmApi::create(__DIR__ . '/../../files_enabled');
+        } catch (ConfigurationException | InvalidPluginRootPathException $exception) {
+        }
+
+        self::assertNull($exception);
+    }
+
+    public function testCreateWrongPath(): void
+    {
+        $exception = null;
+
+        try {
+            UcrmApi::create(__DIR__);
+        } catch (InvalidPluginRootPathException $exception) {
+        }
+
+        self::assertInstanceOf(InvalidPluginRootPathException::class, $exception);
+    }
+
+    public function testDisabledPlugin(): void
+    {
+        $exception = null;
+
+        try {
+            UcrmApi::create(__DIR__ . '/../../files_disabled');
+        } catch (ConfigurationException $exception) {
+        }
+
+        self::assertInstanceOf(ConfigurationException::class, $exception);
+    }
 
     public function testPost(): void
     {

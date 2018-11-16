@@ -6,3 +6,6 @@ default:
 
 csfix:
 	./vendor/bin/ecs check src tests --fix
+
+test_coverage:
+	./vendor/bin/phpunit --coverage-html coverage

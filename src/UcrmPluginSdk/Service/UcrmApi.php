@@ -16,6 +16,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
 use Ubnt\UcrmPluginSdk\Exception\ConfigurationException;
+use Ubnt\UcrmPluginSdk\Exception\InvalidPluginRootPathException;
 use Ubnt\UcrmPluginSdk\Exception\JsonException;
 use Ubnt\UcrmPluginSdk\Util\Helpers;
 use Ubnt\UcrmPluginSdk\Util\Json;
@@ -60,6 +61,8 @@ class UcrmApi
      * @see AbstractOptionsManager::__construct() for more information.
      *
      * @throws ConfigurationException
+     * @throws InvalidPluginRootPathException
+     * @throws JsonException
      */
     public static function create(?string $pluginRootPath = null): self
     {
