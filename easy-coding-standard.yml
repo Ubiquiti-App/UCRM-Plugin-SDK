@@ -1,0 +1,29 @@
+imports:
+- { resource: vendor/symplify/easy-coding-standard/config/clean-code.yml }
+- { resource: vendor/symplify/easy-coding-standard/config/php70.yml }
+- { resource: vendor/symplify/easy-coding-standard/config/php71.yml }
+- { resource: vendor/symplify/easy-coding-standard/config/psr12.yml }
+- { resource: vendor/symplify/easy-coding-standard/config/symfony.yml }
+- { resource: vendor/symplify/easy-coding-standard/config/common.yml }
+
+parameters:
+  exclude_checkers:
+  - PhpCsFixer\Fixer\ClassNotation\SelfAccessorFixer
+  - PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer
+  - PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer
+  - PhpCsFixer\Fixer\Phpdoc\PhpdocAnnotationWithoutDotFixer
+  - PhpCsFixer\Fixer\Phpdoc\PhpdocSummaryFixer
+  - PhpCsFixer\Fixer\Phpdoc\PhpdocToCommentFixer
+
+services:
+  PhpCsFixer\Fixer\ControlStructure\NoSuperfluousElseifFixer: ~
+  PhpCsFixer\Fixer\ControlStructure\NoUselessElseFixer: ~
+  PhpCsFixer\Fixer\Import\OrderedImportsFixer: ~
+  PhpCsFixer\Fixer\Operator\ConcatSpaceFixer:
+    spacing: one
+  PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer: ~
+  PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer: ~
+  PhpCsFixer\Fixer\ReturnNotation\NoUselessReturnFixer: ~
+  PhpCsFixer\Fixer\StringNotation\SingleQuoteFixer: ~
+  PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer:
+    elements: ['property', 'method']

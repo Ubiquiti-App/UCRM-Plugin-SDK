@@ -1,0 +1,25 @@
+language: php
+
+cache:
+    directories:
+        - $HOME/.composer/cache
+
+php:
+    - 7.1
+    - 7.2
+    - nightly
+
+matrix:
+    fast_finish: true
+    allow_failures:
+        - php: nightly
+
+install:
+    - composer install --ignore-platform-reqs
+
+script:
+    - composer validate --strict
+    - composer outdated --direct --strict
+    - ./vendor/bin/ecs check src tests
+    - ./vendor/bin/phpunit
+    - ./vendor/bin/phpstan analyse src tests --level max
