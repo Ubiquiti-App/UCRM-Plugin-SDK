@@ -1,3 +1,4 @@
 vendor/
 tests/files/data/plugin.log
 .php_cs.cache
+composer.lock
