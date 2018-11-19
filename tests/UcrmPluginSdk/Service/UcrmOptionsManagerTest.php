@@ -13,12 +13,13 @@ declare(strict_types=1);
 namespace Ubnt\UcrmPluginSdk\Service;
 
 use Ubnt\UcrmPluginSdk\Data\UcrmOptions;
+use Ubnt\UcrmPluginSdk\Exception\InvalidPluginRootPathException;
 
 class UcrmOptionsManagerTest extends \PHPUnit\Framework\TestCase
 {
     public function testLoadOptions(): void
     {
-        $pluginOptionsManager = new UcrmOptionsManager(__DIR__ . '/../../files');
+        $pluginOptionsManager = new UcrmOptionsManager(__DIR__ . '/../../files_enabled');
         $options = $pluginOptionsManager->loadOptions();
 
         self::assertInstanceOf(UcrmOptions::class, $options);
@@ -26,5 +27,18 @@ class UcrmOptionsManagerTest extends \PHPUnit\Framework\TestCase
         self::assertSame('http://localhost/', $options->ucrmLocalUrl);
         self::assertNull($options->pluginPublicUrl);
         self::assertSame('MyePrzJ3gqJ3rs3RW4B4saP1CyYgPcEpRdHl4htO3lEIX4mBJq0vbUyGYNd99VXt', $options->pluginAppKey);
+    }
+
+    public function testFileNotFound(): void
+    {
+        $exception = null;
+
+        try {
+            $pluginOptionsManager = new UcrmOptionsManager(__DIR__);
+            $pluginOptionsManager->loadOptions();
+        } catch (InvalidPluginRootPathException $exception) {
+        }
+
+        self::assertInstanceOf(InvalidPluginRootPathException::class, $exception);
     }
 }

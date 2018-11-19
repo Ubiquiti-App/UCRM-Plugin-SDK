@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Ubnt\UcrmPluginSdk\Service;
 
+use Ubnt\UcrmPluginSdk\Exception\InvalidPluginRootPathException;
 use Ubnt\UcrmPluginSdk\Exception\JsonException;
 use Ubnt\UcrmPluginSdk\Util\Json;
 
@@ -36,13 +37,20 @@ abstract class AbstractOptionsManager
     /**
      * @return mixed[]
      *
+     * @throws InvalidPluginRootPathException
      * @throws JsonException
      */
     protected function getDataFromJson(string $filename): array
     {
         $path = sprintf('%s/%s', rtrim($this->pluginRootPath, '/'), $filename);
         if (! file_exists($path)) {
-            return [];
+            throw new InvalidPluginRootPathException(
+                sprintf(
+                    'Could not find file "%s" in "%s" directory.',
+                    $filename,
+                    $this->pluginRootPath
+                )
+            );
         }
 
         return Json::decode(file_get_contents($path) ?: '[]');

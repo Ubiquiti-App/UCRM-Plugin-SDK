@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Ubnt\UcrmPluginSdk\Service;
 
+use Ubnt\UcrmPluginSdk\Exception\InvalidPluginRootPathException;
+use Ubnt\UcrmPluginSdk\Exception\JsonException;
+
 /**
  * This class can be used to retrieve plugin's configuration from `data/config.json` file.
  *
@@ -38,11 +41,14 @@ class PluginConfigManager extends AbstractOptionsManager
      *     echo $config['yourConfigurationKey'];
      *
      * @return mixed[]
+     *
+     * @throws InvalidPluginRootPathException
+     * @throws JsonException
      */
     public function loadConfig(): array
     {
         if (! $this->config) {
-            $this->config = $this->getDataFromJson(self::CONFIG_JSON);
+            $this->updateConfig();
         }
 
         return $this->config;
@@ -63,6 +69,9 @@ class PluginConfigManager extends AbstractOptionsManager
      *     $pluginConfigManager->updateConfig();
      *     // config is now up to date
      *     $config = $pluginConfigManager->loadConfig();
+     *
+     * @throws InvalidPluginRootPathException
+     * @throws JsonException
      */
     public function updateConfig(): void
     {

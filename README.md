@@ -1,4 +1,9 @@
 # UCRM Plugin SDK
+[![Build Status](https://img.shields.io/travis/com/Ubiquiti-App/UCRM-Plugin-SDK.svg)](https://travis-ci.com/Ubiquiti-App/UCRM-Plugin-SDK)
+[![Coverage](https://img.shields.io/coveralls/github/Ubiquiti-App/UCRM-Plugin-SDK.svg)](https://coveralls.io/github/Ubiquiti-App/UCRM-Plugin-SDK)
+[![Latest Release](https://img.shields.io/github/release/Ubiquiti-App/UCRM-Plugin-SDK.svg)](https://packagist.org/packages/ubnt/ucrm-plugin-sdk)
+[![License](https://img.shields.io/github/license/Ubiquiti-App/UCRM-Plugin-SDK.svg)](https://packagist.org/packages/ubnt/ucrm-plugin-sdk)
+
 This repository contains the open source PHP SDK for [UCRM plugins](https://github.com/Ubiquiti-App/UCRM-plugins).
 
 ## Installation

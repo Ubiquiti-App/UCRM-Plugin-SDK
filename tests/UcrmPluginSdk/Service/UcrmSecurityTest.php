@@ -15,12 +15,51 @@ namespace Ubnt\UcrmPluginSdk\Service;
 use Eloquent\Phony\Phpunit\Phony;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Ubnt\UcrmPluginSdk\Data\UcrmUser;
+use Ubnt\UcrmPluginSdk\Exception\ConfigurationException;
+use Ubnt\UcrmPluginSdk\Exception\InvalidPluginRootPathException;
 
 class UcrmSecurityTest extends \PHPUnit\Framework\TestCase
 {
+    public function testCreate(): void
+    {
+        $exception = null;
+
+        try {
+            UcrmSecurity::create(__DIR__ . '/../../files_enabled');
+        } catch (ConfigurationException | InvalidPluginRootPathException $exception) {
+        }
+
+        self::assertNull($exception);
+    }
+
+    public function testCreateWrongPath(): void
+    {
+        $exception = null;
+
+        try {
+            UcrmSecurity::create(__DIR__);
+        } catch (InvalidPluginRootPathException $exception) {
+        }
+
+        self::assertInstanceOf(InvalidPluginRootPathException::class, $exception);
+    }
+
+    public function testDisabledPlugin(): void
+    {
+        $exception = null;
+
+        try {
+            UcrmSecurity::create(__DIR__ . '/../../files_disabled');
+        } catch (ConfigurationException $exception) {
+        }
+
+        self::assertInstanceOf(ConfigurationException::class, $exception);
+    }
+
     /**
      * @dataProvider getUserDataProvider
      */
@@ -36,7 +75,7 @@ class UcrmSecurityTest extends \PHPUnit\Framework\TestCase
         $responseMock = $responseHandle->get();
 
         $clientHandle = Phony::mock(Client::class);
-        if ($responseCode === 403) {
+        if ($responseCode !== 200) {
             $clientHandle->request->throws(new ClientException('', Phony::mock(Request::class)->get(), $responseMock));
         } else {
             $clientHandle->request->returns($responseMock);
@@ -44,7 +83,17 @@ class UcrmSecurityTest extends \PHPUnit\Framework\TestCase
         $clientMock = $clientHandle->get();
 
         $ucrmSecurity = new UcrmSecurity($clientMock);
-        $user = $ucrmSecurity->getUser();
+
+        try {
+            $_COOKIE['PHPSESSID'] = [
+                'test' => 'wrong data in cookie is handled without error',
+            ];
+            $user = $ucrmSecurity->getUser();
+        } catch (GuzzleException $exception) {
+            self::assertSame($responseCode, $exception->getCode());
+
+            return;
+        }
 
         if ($responseCode === 403) {
             self::assertNull($user);
@@ -85,6 +134,12 @@ class UcrmSecurityTest extends \PHPUnit\Framework\TestCase
             'anonymous' => [
                 'responseBody' => '',
                 'responseCode' => 403,
+                'expectedIsClient' => false,
+                'expectedPermissionsFilled' => false,
+            ],
+            'not-found' => [
+                'responseBody' => '',
+                'responseCode' => 404,
                 'expectedIsClient' => false,
                 'expectedPermissionsFilled' => false,
             ],

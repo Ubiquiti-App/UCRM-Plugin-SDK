@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Ubnt\UcrmPluginSdk\Service;
 
 use Ubnt\UcrmPluginSdk\Data\UcrmOptions;
+use Ubnt\UcrmPluginSdk\Exception\InvalidPluginRootPathException;
+use Ubnt\UcrmPluginSdk\Exception\JsonException;
 
 /**
  * This class can be used to retrieve automatically generated UCRM options from `ucrm.json` file.
@@ -39,11 +41,14 @@ class UcrmOptionsManager extends AbstractOptionsManager
      *     $ucrmOptionsManager = new UcrmOptionsManager();
      *     $options = $ucrmOptionsManager->loadOptions();
      *     echo $options->pluginPublicUrl;
+     *
+     * @throws InvalidPluginRootPathException
+     * @throws JsonException
      */
     public function loadOptions(): UcrmOptions
     {
         if (! $this->options) {
-            $this->options = $this->getOptions();
+            $this->updateOptions();
         }
 
         return $this->options;
@@ -64,12 +69,19 @@ class UcrmOptionsManager extends AbstractOptionsManager
      *     $ucrmOptionsManager->updateOptions();
      *     // options are now up to date
      *     $options = $ucrmOptionsManager->loadOptions();
+     *
+     * @throws InvalidPluginRootPathException
+     * @throws JsonException
      */
     public function updateOptions(): void
     {
         $this->options = $this->getOptions();
     }
 
+    /**
+     * @throws InvalidPluginRootPathException
+     * @throws JsonException
+     */
     private function getOptions(): UcrmOptions
     {
         $options = new UcrmOptions();
