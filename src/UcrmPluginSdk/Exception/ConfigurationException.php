@@ -12,6 +12,6 @@ declare(strict_types=1);
 
 namespace Ubnt\UcrmPluginSdk\Exception;
 
-class ConfigurationException extends \RuntimeException
+class ConfigurationException extends UcrmPluginSdkException
 {
 }

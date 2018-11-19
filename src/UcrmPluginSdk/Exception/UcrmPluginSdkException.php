@@ -12,6 +12,6 @@ declare(strict_types=1);
 
 namespace Ubnt\UcrmPluginSdk\Exception;
 
-class InvalidPluginRootPathException extends UcrmPluginSdkException
+abstract class UcrmPluginSdkException extends \Exception
 {
 }

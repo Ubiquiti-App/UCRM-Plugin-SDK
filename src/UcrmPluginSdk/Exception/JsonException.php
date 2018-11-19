@@ -12,6 +12,6 @@ declare(strict_types=1);
 
 namespace Ubnt\UcrmPluginSdk\Exception;
 
-class JsonException extends \RuntimeException
+class JsonException extends UcrmPluginSdkException
 {
 }
