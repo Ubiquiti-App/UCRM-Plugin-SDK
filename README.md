@@ -15,7 +15,7 @@ composer require ubnt/ucrm-plugin-sdk
 ## Usage
 Simple example using available SDK classes:
 ```php
-require __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 // Get UCRM log manager.
 $log = \Ubnt\UcrmPluginSdk\Service\PluginLogManager::create();
