@@ -49,6 +49,17 @@ class PluginLogManager
     }
 
     /**
+     * Plugin root path is configured automatically if standard directory structure is used.
+     * That is, UCRM Plugin SDK resides in `vendor/ubnt` directory inside of plugin's root.
+     *
+     * If this is not the case, you can use the `$pluginRootPath` parameter to specify the path.
+     */
+    public static function create(?string $pluginRootPath = null): self
+    {
+        return new self($pluginRootPath);
+    }
+
+    /**
      * Returns content of the plugin's log file (`data/plugin.log`).
      *
      * @see https://github.com/Ubiquiti-App/UCRM-plugins/blob/master/docs/file-structure.md#datapluginlog

@@ -23,7 +23,7 @@ class PluginLogManagerTest extends \PHPUnit\Framework\TestCase
 
     public function testLogOperations(): void
     {
-        $pluginLogManager = new PluginLogManager(__DIR__ . '/../../files_enabled');
+        $pluginLogManager = PluginLogManager::create(__DIR__ . '/../../files_enabled');
         self::assertSame('', $pluginLogManager->getLog());
 
         $pluginLogManager->appendLog('This is first test message.');

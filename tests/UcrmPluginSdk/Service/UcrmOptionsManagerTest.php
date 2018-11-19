@@ -19,7 +19,7 @@ class UcrmOptionsManagerTest extends \PHPUnit\Framework\TestCase
 {
     public function testLoadOptions(): void
     {
-        $pluginOptionsManager = new UcrmOptionsManager(__DIR__ . '/../../files_enabled');
+        $pluginOptionsManager = UcrmOptionsManager::create(__DIR__ . '/../../files_enabled');
         $options = $pluginOptionsManager->loadOptions();
 
         self::assertInstanceOf(UcrmOptions::class, $options);
@@ -34,7 +34,7 @@ class UcrmOptionsManagerTest extends \PHPUnit\Framework\TestCase
         $exception = null;
 
         try {
-            $pluginOptionsManager = new UcrmOptionsManager(__DIR__);
+            $pluginOptionsManager = UcrmOptionsManager::create(__DIR__);
             $pluginOptionsManager->loadOptions();
         } catch (InvalidPluginRootPathException $exception) {
         }
