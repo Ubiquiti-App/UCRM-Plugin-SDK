@@ -12,6 +12,16 @@ The UCRM Plugin SDK can be installed with [Composer](https://getcomposer.org/). 
 composer require ubnt/ucrm-plugin-sdk
 ```
 
+## Available classes
+
+Class name | Description
+---------- | -----------
+[Ubnt\UcrmPluginSdk\Service\UcrmApi](src/UcrmPluginSdk/Service/UcrmApi.php) | A service that handles calling UCRM API. 
+[Ubnt\UcrmPluginSdk\Service\UcrmSecurity](src/UcrmPluginSdk/Service/UcrmSecurity.php) | A service that handles getting data of user currently logged into UCRM.
+[Ubnt\UcrmPluginSdk\Service\PluginLogManager](src/UcrmPluginSdk/Service/PluginLogManager.php) | A service that handles managing the plugin's log file.
+[Ubnt\UcrmPluginSdk\Service\UcrmOptionsManager](src/UcrmPluginSdk/Service/UcrmOptionsManager.php) | A service that handles loading automatically generated options available to the plugin.
+[Ubnt\UcrmPluginSdk\Service\PluginConfigManager](src/UcrmPluginSdk/Service/PluginConfigManager.php) | A service that handles loading configuration of the plugin as defined in the plugin's manifest file.
+
 ## Usage
 Simple example using available SDK classes:
 ```php
@@ -70,16 +80,6 @@ $pluginPublicUrl = $optionsManager->loadOptions()->pluginPublicUrl;
 
 $log->appendLog(sprintf('Finished invoice export. Take a look at %s.', $pluginPublicUrl));
 ```
-
-## Available classes
-
-Class name | Description
----------- | -----------
-[Ubnt\UcrmPluginSdk\Service\UcrmApi](src/UcrmPluginSdk/Service/UcrmApi.php) | A service that handles calling UCRM API. 
-[Ubnt\UcrmPluginSdk\Service\UcrmSecurity](src/UcrmPluginSdk/Service/UcrmSecurity.php) | A service that handles getting data of user currently logged into UCRM.
-[Ubnt\UcrmPluginSdk\Service\PluginLogManager](src/UcrmPluginSdk/Service/PluginLogManager.php) | A service that handles managing the plugin's log file.
-[Ubnt\UcrmPluginSdk\Service\UcrmOptionsManager](src/UcrmPluginSdk/Service/UcrmOptionsManager.php) | A service that handles loading automatically generated options available to the plugin.
-[Ubnt\UcrmPluginSdk\Service\PluginConfigManager](src/UcrmPluginSdk/Service/PluginConfigManager.php) | A service that handles loading configuration of the plugin as defined in the plugin's manifest file.
 
 ## Tests 
 Unit tests can be executed by running this command from the root directory:
