@@ -23,3 +23,6 @@ script:
     - ./vendor/bin/ecs check src tests
     - ./vendor/bin/phpunit
     - ./vendor/bin/phpstan analyse src tests --level max
+
+after_success:
+    - travis_retry php vendor/bin/php-coveralls -v

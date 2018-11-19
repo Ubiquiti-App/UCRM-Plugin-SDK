@@ -3,3 +3,4 @@ tests/files/data/plugin.log
 .php_cs.cache
 composer.lock
 coverage/
+build/logs/
