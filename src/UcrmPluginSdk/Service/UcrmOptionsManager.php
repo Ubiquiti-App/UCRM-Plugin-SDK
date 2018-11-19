@@ -31,6 +31,17 @@ class UcrmOptionsManager extends AbstractOptionsManager
     private $options;
 
     /**
+     * Plugin root path is configured automatically if standard directory structure is used.
+     * That is, UCRM Plugin SDK resides in `vendor/ubnt` directory inside of plugin's root.
+     *
+     * If this is not the case, you can use the `$pluginRootPath` parameter to specify the path.
+     */
+    public static function create(?string $pluginRootPath = null): self
+    {
+        return new self($pluginRootPath);
+    }
+
+    /**
      * Returns (cached) instance of UcrmOptions data class,
      * which holds automatically generated UCRM options from `ucrm.json` file.
      *

@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace Ubnt\UcrmPluginSdk\Data;
 
+use Ubnt\UcrmPluginSdk\Security\Permission;
 use Ubnt\UcrmPluginSdk\Security\PermissionNames;
+use Ubnt\UcrmPluginSdk\Security\SpecialPermission;
 use Ubnt\UcrmPluginSdk\Security\SpecialPermissionNames;
 
 /**
@@ -71,6 +73,7 @@ class UcrmUser
      * Empty if the user is client.
      *
      * @see PermissionNames class for possible keys (permission names).
+     * @see Permission class for possible values.
      *
      * @var string[]
      */
@@ -84,6 +87,7 @@ class UcrmUser
      * Empty if the user is client.
      *
      * @see SpecialPermissionNames class for possible keys (special permission names).
+     * @see SpecialPermission class for possible values.
      *
      * @var string[]
      */
@@ -110,7 +114,7 @@ class UcrmUser
     public function hasViewPermission(string $resource): bool
     {
         return array_key_exists($resource, $this->permissions)
-            && in_array($this->permissions[$resource], ['view', 'edit'], true);
+            && in_array($this->permissions[$resource], [Permission::VIEW, Permission::EDIT], true);
     }
 
     /**
@@ -120,7 +124,7 @@ class UcrmUser
     public function hasEditPermission(string $resource): bool
     {
         return array_key_exists($resource, $this->permissions)
-            && $this->permissions[$resource] === 'edit';
+            && $this->permissions[$resource] === Permission::EDIT;
     }
 
     /**
@@ -130,6 +134,6 @@ class UcrmUser
     public function hasSpecialPermission(string $name): bool
     {
         return array_key_exists($name, $this->specialPermissions)
-            && $this->specialPermissions[$name] === 'allow';
+            && $this->specialPermissions[$name] === SpecialPermission::ALLOW;
     }
 }

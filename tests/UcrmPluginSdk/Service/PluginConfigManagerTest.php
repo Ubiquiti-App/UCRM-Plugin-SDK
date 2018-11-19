@@ -27,7 +27,7 @@ class PluginConfigManagerTest extends \PHPUnit\Framework\TestCase
             'lastProcessedTimestamp' => null,
         ];
 
-        $pluginOptionsManager = new PluginConfigManager(__DIR__ . '/../../files_enabled');
+        $pluginOptionsManager = PluginConfigManager::create(__DIR__ . '/../../files_enabled');
         $config = $pluginOptionsManager->loadConfig();
 
         self::assertSame($expectedOptions, $config);
@@ -38,7 +38,7 @@ class PluginConfigManagerTest extends \PHPUnit\Framework\TestCase
         $exception = null;
 
         try {
-            $pluginOptionsManager = new PluginConfigManager(__DIR__);
+            $pluginOptionsManager = PluginConfigManager::create(__DIR__);
             $pluginOptionsManager->loadConfig();
         } catch (InvalidPluginRootPathException $exception) {
         }
