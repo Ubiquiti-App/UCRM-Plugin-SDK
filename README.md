@@ -40,9 +40,10 @@ if (
 $log->appendLog('Starting invoice export.');
 
 // Get export format from plugin's configuration.
-// https://github.com/Ubiquiti-App/UCRM-plugins/blob/master/docs/file-structure.md#dataconfigjson
+// https://github.com/Ubiquiti-App/UCRM-plugins/blob/master/docs/manifest.md#configuration
 $configManager = \Ubnt\UcrmPluginSdk\Service\PluginConfigManager::create();
 $config = $configManager->loadConfig();
+// the "exportFormat" key must be defined in plugin's manifest file, see the link above
 $exportFormat = $config['exportFormat'];
 
 // Get UCRM API manager.
