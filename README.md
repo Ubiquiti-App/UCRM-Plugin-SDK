@@ -29,4 +29,4 @@ Coding standard check can be executed by running this command from the root dire
 ```
 
 ## Disclaimer 
-The software is provided "as is", without any warranty of any kind. Read more in the [licence](https://github.com/Ubiquiti-App/UCRM-Plugin-SDK/blob/master/LICENSE).
+The software is provided "as is", without any warranty of any kind. Read more in the [licence](https://github.com/Ubiquiti-App/UCRM-Plugin-SDK/blob/master/LICENSE.md).
