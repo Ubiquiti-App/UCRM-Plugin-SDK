@@ -7,6 +7,20 @@ if (! class_exists(ZipArchive::class)) {
     exit(1);
 }
 
+function checkRequiredFiles(string $pluginRootDir): void
+{
+    if (! is_file(sprintf('%s/manifest.json', $pluginRootDir))) {
+        echo sprintf('Manifest file not found in "%s".', $pluginRootDir) . PHP_EOL;
+
+        exit(1);
+    }
+
+    // treat missing main.php only as a warning as it's not required for successful completion of this script
+    if (! is_file(sprintf('%s/main.php', $pluginRootDir))) {
+        echo sprintf('WARNING: Plugin does not have required main.php file in "%s".', $pluginRootDir) . PHP_EOL;
+    }
+}
+
 function getPluginRootDir(?string $rootDir): string
 {
     if ($rootDir === null) {
@@ -28,13 +42,6 @@ function getPluginRootDir(?string $rootDir): string
 
 function getPluginName(string $pluginRootDir): string
 {
-    $path = sprintf('%s/manifest.json', $pluginRootDir);
-    if (! is_file($path)) {
-        echo sprintf('Manifest file not found in "%s".', $pluginRootDir) . PHP_EOL;
-
-        exit(1);
-    }
-
     $manifest = json_decode(file_get_contents($pluginRootDir . '/manifest.json'), true, 512, JSON_BIGINT_AS_STRING);
     $error = json_last_error();
     if ($error !== JSON_ERROR_NONE) {
@@ -51,7 +58,7 @@ function getPluginName(string $pluginRootDir): string
     }
 
     if (! preg_match('~^[a-z0-9_-]+$~', $name)) {
-        echo 'Plugin\'s name contains invalid characters.' . PHP_EOL;
+        echo 'Plugin\'s name contains invalid characters. Valid characters are: a-z, 0-9, _ (underscore) and - (hyphen).' . PHP_EOL;
 
         exit(1);
     }
@@ -60,6 +67,7 @@ function getPluginName(string $pluginRootDir): string
 }
 
 $pluginRootDir = getPluginRootDir($argv[1] ?? null);
+checkRequiredFiles($pluginRootDir);
 $pluginName = getPluginName($pluginRootDir);
 $zipName = sprintf('%s.zip', $pluginName);
 
@@ -70,8 +78,6 @@ if (file_exists(sprintf('%s/../README.md', $pluginRootDir)) && is_dir(sprintf('%
 } else {
     $zipPath = sprintf('%s/%s', $pluginRootDir, $zipName);
 }
-
-chdir($pluginRootDir);
 
 // Delete old ZIP archive.
 if (file_exists($zipPath)) {
@@ -95,7 +101,7 @@ $files = new CallbackFilterIterator(
         new \RecursiveDirectoryIterator($pluginRootDir)
     ),
     function (SplFileInfo $fileInfo) {
-        return ! $fileInfo->isDir();
+        return $fileInfo->isFile();
     }
 );
 

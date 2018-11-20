@@ -31,6 +31,9 @@
         "symplify/easy-coding-standard": "^5.2",
         "php-coveralls/php-coveralls": "^2.1"
     },
+    "suggest": {
+        "ext-zip": "Needed for pack-plugin script."
+    },
     "bin": [
         "bin/pack-plugin"
     ]
