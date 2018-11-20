@@ -105,11 +105,17 @@ $files = new CallbackFilterIterator(
     }
 );
 
-$reservedFiles = [
+$ignoredFiles = [
     'ucrm.json',
     '.ucrm-plugin-running',
     '.ucrm-plugin-execution-requested',
     $zipName,
+];
+
+$ignoredDirectories = [
+    'data/',
+    '.git/',
+    '.idea/',
 ];
 
 /** @var SplFileInfo $fileInfo */
@@ -117,10 +123,18 @@ foreach ($files as $fileInfo) {
     $filename = substr(str_replace('\\', '/', $fileInfo->getPathname()), strlen($pluginRootDir));
     $filename = ltrim($filename, '/');
 
-    if (in_array($filename, $reservedFiles, true) || substr($filename, 0, 5) === 'data/') {
-        echo sprintf('Skipping reserved file "%s".', $filename) . PHP_EOL;
+    if (in_array($filename, $ignoredFiles, true)) {
+        echo sprintf('Skipping ignored file "%s".', $filename) . PHP_EOL;
 
         continue;
+    }
+
+    foreach ($ignoredDirectories as $ignoredDirectory) {
+        if (strncmp($filename, $ignoredDirectory, strlen($ignoredDirectory)) === 0) {
+            echo sprintf('Skipping ignored file "%s".', $filename) . PHP_EOL;
+
+            continue 2;
+        }
     }
 
     if (! $zip->addFile($fileInfo->getPathname(), $filename)) {
