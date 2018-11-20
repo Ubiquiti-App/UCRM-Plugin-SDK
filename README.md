@@ -81,6 +81,19 @@ $pluginPublicUrl = $optionsManager->loadOptions()->pluginPublicUrl;
 $log->appendLog(sprintf('Finished invoice export. Take a look at %s.', $pluginPublicUrl));
 ```
 
+## Pack script
+To pack your plugin for use in UCRM, you can use the provided pack script. Run this command from the root directory:
+```
+./vendor/bin/pack-plugin
+```
+
+The script will create ZIP archive of the plugin, which can be uploaded to UCRM.
+If you are using the directory structure of official [UCRM plugins repository](https://github.com/Ubiquiti-App/UCRM-plugins) the archive will be created one level up, next to your `README.md` file and `src/` directory.
+Otherwise it will be created in your root directory.
+
+> If the plugin's root directory is not detected correctly, you can give it to the script as an argument. For example:  
+> `./vendor/bin/pack-plugin /home/username/my-new-plugin`
+
 ## Tests 
 Unit tests can be executed by running this command from the root directory:
 ```
