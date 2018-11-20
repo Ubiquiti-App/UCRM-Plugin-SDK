@@ -30,5 +30,8 @@
         "phpstan/phpstan-strict-rules": "^0.10.1",
         "symplify/easy-coding-standard": "^5.2",
         "php-coveralls/php-coveralls": "^2.1"
-    }
+    },
+    "bin": [
+        "bin/pack-plugin"
+    ]
 }
