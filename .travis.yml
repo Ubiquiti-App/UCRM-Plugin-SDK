@@ -19,7 +19,6 @@ install:
 
 script:
     - composer validate --strict
-    - composer outdated --direct --strict
     - ./vendor/bin/ecs check src tests
     - ./vendor/bin/phpunit
     - ./vendor/bin/phpstan analyse src tests --level max
