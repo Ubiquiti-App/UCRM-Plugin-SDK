@@ -27,6 +27,7 @@ class UcrmOptionsManagerTest extends \PHPUnit\Framework\TestCase
         self::assertSame('http://localhost/', $options->ucrmLocalUrl);
         self::assertNull($options->pluginPublicUrl);
         self::assertSame('MyePrzJ3gqJ3rs3RW4B4saP1CyYgPcEpRdHl4htO3lEIX4mBJq0vbUyGYNd99VXt', $options->pluginAppKey);
+        self::assertSame(123, $options->pluginId);
     }
 
     public function testFileNotFound(): void

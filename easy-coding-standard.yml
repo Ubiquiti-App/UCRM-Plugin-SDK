@@ -7,13 +7,13 @@ imports:
 - { resource: vendor/symplify/easy-coding-standard/config/common.yml }
 
 parameters:
-  exclude_checkers:
-  - PhpCsFixer\Fixer\ClassNotation\SelfAccessorFixer
-  - PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer
-  - PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer
-  - PhpCsFixer\Fixer\Phpdoc\PhpdocAnnotationWithoutDotFixer
-  - PhpCsFixer\Fixer\Phpdoc\PhpdocSummaryFixer
-  - PhpCsFixer\Fixer\Phpdoc\PhpdocToCommentFixer
+  skip:
+    PhpCsFixer\Fixer\ClassNotation\SelfAccessorFixer: ~
+    PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer: ~
+    PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocAnnotationWithoutDotFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocSummaryFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocToCommentFixer: ~
 
 services:
   PhpCsFixer\Fixer\ControlStructure\NoSuperfluousElseifFixer: ~
