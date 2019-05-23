@@ -173,4 +173,36 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
             ]
         );
     }
+
+    public function testGetJson(): void
+    {
+        $responseHandle = Phony::mock(Response::class);
+        $responseHandle->getStatusCode->returns(201);
+        $responseHandle->getBody->returns('[]');
+        $responseHandle->getHeaderLine->with( 'content-type' )->returns( 'application/json' );
+        $responseMock = $responseHandle->get();
+
+        $clientHandle = Phony::mock(Client::class);
+        $clientHandle->request->returns($responseMock);
+        $clientMock = $clientHandle->get();
+
+        $ucrmApi = new UcrmApi($clientMock, self::TEST_APP_KEY);
+        $endpoint = 'clients';
+        $query = [
+            'order' => 'client.id',
+            'direction' => 'DESC',
+        ];
+        $ucrmApi->get($endpoint, $query);
+
+        $clientHandle->request->calledWith(
+            'GET',
+            $endpoint,
+            [
+                'query' => $query,
+                'headers' => [
+                    'x-auth-app-key' => self::TEST_APP_KEY,
+                ],
+            ]
+        );
+    }
 }
