@@ -105,7 +105,7 @@ class UcrmApi
      *
      * @param mixed[] $query
      *
-     * @return array|string
+     * @return mixed[]|string
      *
      * @throws GuzzleException
      * @throws JsonException
