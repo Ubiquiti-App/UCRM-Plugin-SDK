@@ -105,12 +105,12 @@ class UcrmApi
      *
      * @param mixed[] $query
      *
-     * @return mixed[]
+     * @return array|string
      *
      * @throws GuzzleException
      * @throws JsonException
      */
-    public function get(string $endpoint, array $query = []): array
+    public function get(string $endpoint, array $query = [])
     {
         $response = $this->request(
             'GET',
@@ -119,8 +119,12 @@ class UcrmApi
                 'query' => $query,
             ]
         );
+        
+        if ($response->getHeaderLine('content-type') === 'application/json') {
+            return Json::decode((string) $response->getBody());
+        }
 
-        return Json::decode((string) $response->getBody());
+        return (string) $response->getBody();
     }
 
     /**
