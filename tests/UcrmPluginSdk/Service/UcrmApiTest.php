@@ -179,7 +179,7 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
         $responseHandle = Phony::mock(Response::class);
         $responseHandle->getStatusCode->returns(201);
         $responseHandle->getBody->returns('[]');
-        $responseHandle->getHeaderLine->with( 'content-type' )->returns( 'application/json' );
+        $responseHandle->getHeaderLine->with('content-type')->returns('application/json');
         $responseMock = $responseHandle->get();
 
         $clientHandle = Phony::mock(Client::class);
