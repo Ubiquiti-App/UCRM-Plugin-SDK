@@ -143,11 +143,17 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGet(): void
+    /**
+     * @param mixed[]|string $expectedResult
+     *
+     * @dataProvider getProvider
+     */
+    public function testGet(string $contentType, string $returnedBody, $expectedResult): void
     {
         $responseHandle = Phony::mock(Response::class);
         $responseHandle->getStatusCode->returns(201);
-        $responseHandle->getBody->returns('[]');
+        $responseHandle->getBody->returns($returnedBody);
+        $responseHandle->getHeaderLine->with('content-type')->returns($contentType);
         $responseMock = $responseHandle->get();
 
         $clientHandle = Phony::mock(Client::class);
@@ -160,7 +166,8 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
             'order' => 'client.id',
             'direction' => 'DESC',
         ];
-        $ucrmApi->get($endpoint, $query);
+        $result = $ucrmApi->get($endpoint, $query);
+        self::assertSame($expectedResult, $result);
 
         $clientHandle->request->calledWith(
             'GET',
@@ -174,35 +181,22 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetJson(): void
+    /**
+     * @return mixed[]
+     */
+    public function getProvider(): array
     {
-        $responseHandle = Phony::mock(Response::class);
-        $responseHandle->getStatusCode->returns(201);
-        $responseHandle->getBody->returns('[]');
-        $responseHandle->getHeaderLine->with('content-type')->returns('application/json');
-        $responseMock = $responseHandle->get();
-
-        $clientHandle = Phony::mock(Client::class);
-        $clientHandle->request->returns($responseMock);
-        $clientMock = $clientHandle->get();
-
-        $ucrmApi = new UcrmApi($clientMock, self::TEST_APP_KEY);
-        $endpoint = 'clients';
-        $query = [
-            'order' => 'client.id',
-            'direction' => 'DESC',
-        ];
-        $ucrmApi->get($endpoint, $query);
-
-        $clientHandle->request->calledWith(
-            'GET',
-            $endpoint,
+        return [
             [
-                'query' => $query,
-                'headers' => [
-                    'x-auth-app-key' => self::TEST_APP_KEY,
-                ],
-            ]
-        );
+                'contentType' => 'text/plain',
+                'returnedBody' => 'lorem ipsum dolor',
+                'expectedResult' => 'lorem ipsum dolor',
+            ],
+            [
+                'contentType' => 'application/json',
+                'returnedBody' => '["lorem", "ipsum"]',
+                'expectedResult' => ['lorem', 'ipsum'],
+            ],
+        ];
     }
 }

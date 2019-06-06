@@ -119,6 +119,7 @@ class UcrmApi
                 'query' => $query,
             ]
         );
+
         if ($response->getHeaderLine('content-type') === 'application/json') {
             return Json::decode((string) $response->getBody());
         }
