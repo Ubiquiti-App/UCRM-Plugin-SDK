@@ -48,11 +48,11 @@ class UcrmSecurity
      *
      * The `$pluginRootPath` parameter can be used to change root directory of plugin.
      *
-     * @see AbstractOptionsManager::__construct() for more information.
-     *
      * @throws ConfigurationException
      * @throws InvalidPluginRootPathException
      * @throws JsonException
+     *
+     * @see AbstractOptionsManager::__construct() for more information.
      */
     public static function create(?string $pluginRootPath = null): self
     {
@@ -88,10 +88,11 @@ class UcrmSecurity
     public function getUser(): ?UcrmUser
     {
         try {
-            $sessionId = $_COOKIE['PHPSESSID'] ?? '';
-            if (! is_string($sessionId)) {
-                $sessionId = '';
-            }
+            $cookies = [
+                'PHPSESSID=' . $this->getSanitizedCookie('PHPSESSID'),
+                'nms-crm-php-session-id=' . $this->getSanitizedCookie('nms-crm-php-session-id'),
+                'nms-session=' . $this->getSanitizedCookie('nms-session'),
+            ];
 
             $response = $this->client->request(
                 'GET',
@@ -99,7 +100,7 @@ class UcrmSecurity
                 [
                     'headers' => [
                         'content-type' => 'application/json',
-                        'cookie' => 'PHPSESSID=' . preg_replace('~[^a-zA-Z0-9]~', '', $sessionId),
+                        'cookie' => implode('; ', $cookies),
                     ],
                 ]
             );
@@ -113,5 +114,13 @@ class UcrmSecurity
         }
 
         return new UcrmUser(Json::decode((string) $response->getBody()));
+    }
+
+    private function getSanitizedCookie(string $name): ?string
+    {
+        $value = $_COOKIE[$name] ?? '';
+        $value = is_string($value) ? $value : '';
+
+        return preg_replace('~[^a-zA-Z0-9-]~', '', $value);
     }
 }
