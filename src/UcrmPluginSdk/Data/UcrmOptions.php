@@ -45,4 +45,9 @@ class UcrmOptions
      * @var string|null
      */
     public $ucrmLocalUrl;
+
+    /**
+     * @var string|null
+     */
+    public $unmsLocalUrl;
 }
