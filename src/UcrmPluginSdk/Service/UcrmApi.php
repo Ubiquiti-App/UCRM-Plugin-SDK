@@ -14,7 +14,7 @@ namespace Ubnt\UcrmPluginSdk\Service;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 use Ubnt\UcrmPluginSdk\Exception\ConfigurationException;
 use Ubnt\UcrmPluginSdk\Exception\InvalidPluginRootPathException;
 use Ubnt\UcrmPluginSdk\Exception\JsonException;
@@ -201,7 +201,7 @@ class UcrmApi
      *
      * @throws GuzzleException
      */
-    private function request(string $method, string $endpoint, array $options = []): Response
+    private function request(string $method, string $endpoint, array $options = []): ResponseInterface
     {
         return $this->client->request(
             $method,

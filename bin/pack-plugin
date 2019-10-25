@@ -113,7 +113,6 @@ $ignoredFiles = [
 ];
 
 $ignoredDirectories = [
-    'data/',
     '.git/',
     '.idea/',
 ];

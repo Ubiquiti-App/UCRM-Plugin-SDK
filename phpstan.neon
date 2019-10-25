@@ -3,7 +3,6 @@ includes:
   - vendor/phpstan/phpstan-strict-rules/rules.neon
 parameters:
     ignoreErrors:
-        - '#PHPDoc tag @throws with type GuzzleHttp\\Exception\\GuzzleException.* is not subtype of Throwable#'
         - '#Only booleans are allowed in#'
 
         # false positive
