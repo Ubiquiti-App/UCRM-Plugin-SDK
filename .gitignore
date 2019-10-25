@@ -4,3 +4,4 @@ tests/files/data/plugin.log
 composer.lock
 coverage/
 build/logs/
+.phpunit.result.cache
