@@ -2,7 +2,7 @@
 /*
  * This file is part of UCRM Plugin SDK.
  *
- * Copyright (c) 2019 Ubiquiti Inc.
+ * Copyright (c) 2019 Ubiquiti Networks
  *
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
@@ -22,13 +22,13 @@ use Ubnt\UcrmPluginSdk\Util\Helpers;
 use Ubnt\UcrmPluginSdk\Util\Json;
 
 /**
- * This class can be used to call UCRM API.
+ * This class can be used to call UNMS API.
  *
  * You can find API documentation at https://help.ubnt.com/hc/en-us/articles/115003906007-UCRM-API-Usage
  */
-class UcrmApi
+class UnmsApi
 {
-    private const HEADER_AUTH_APP_KEY = 'x-auth-app-key';
+    private const HEADER_AUTH_TOKEN = 'x-auth-token';
 
     /**
      * @var Client
@@ -38,21 +38,20 @@ class UcrmApi
     /**
      * @var string
      */
-    private $appKey;
+    private $authToken;
 
-    public function __construct(Client $client, string $appKey)
+    public function __construct(Client $client, string $authToken)
     {
         $this->client = $client;
-        $this->appKey = $appKey;
+        $this->authToken = $authToken;
     }
 
     /**
-     * Creates instance of UcrmApi class, using automatically generated plugin configuration
-     * to setup API URL and App Key.
+     * Creates instance of UnmsApi class, using automatically generated plugin configuration to setup API URL.
      *
      * Example usage:
      *
-     *    $ucrmApi = UcrmApi::create();
+     *    $unmsApi = UnmsApi::create('unmsAuthToken');
      *
      * The `$pluginRootPath` parameter can be used to change root directory of plugin.
      *
@@ -62,44 +61,34 @@ class UcrmApi
      * @throws InvalidPluginRootPathException
      * @throws JsonException
      */
-    public static function create(?string $pluginRootPath = null): self
+    public static function create(string $unmsAuthToken, ?string $pluginRootPath = null): self
     {
         $ucrmOptionsManager = new UcrmOptionsManager($pluginRootPath);
         $options = $ucrmOptionsManager->loadOptions();
 
-        $ucrmUrl = ($options->ucrmLocalUrl ?: $options->ucrmPublicUrl) ?? '';
-        if ($ucrmUrl === '') {
-            throw new ConfigurationException('UCRM URL is missing in plugin configuration.');
+        $unmsUrl = $options->unmsLocalUrl ?? '';
+        if ($unmsUrl === '') {
+            throw new ConfigurationException('UNMS URL is missing in plugin configuration.');
         }
 
-        $ucrmApiUrl = sprintf(
-            '%s/api/v1.0/',
-            rtrim($ucrmUrl, '/')
+        $unmsApiUrl = sprintf(
+            '%s/api/v2.1/',
+            rtrim($unmsUrl, '/')
         );
 
         $client = new Client(
             [
-                'base_uri' => $ucrmApiUrl,
+                'base_uri' => $unmsApiUrl,
                 // If the URL is localhost over HTTPS, do not verify SSL certificate.
-                'verify' => ! Helpers::isUrlSecureLocalhost($ucrmApiUrl),
+                'verify' => ! Helpers::isUrlSecureLocalhost($unmsApiUrl),
             ]
         );
 
-        return new self($client, $options->pluginAppKey);
+        return new self($client, $unmsAuthToken);
     }
 
     /**
-     * Sends a GET request to UCRM API.
-     *
-     * Example usage to get array of clients ordered by ID in descending order:
-     *
-     *     $clients = $ucrmApi->get(
-     *         'clients',
-     *         [
-     *             'order' => 'client.id',
-     *             'direction' => 'DESC'
-     *         ]
-     *     );
+     * Sends a GET request to UNMS API.
      *
      * @param mixed[] $query
      *
@@ -126,17 +115,7 @@ class UcrmApi
     }
 
     /**
-     * Sends a POST request to UCRM API.
-     *
-     * Example usage to create a new client:
-     *
-     *     $ucrmApi->post(
-     *         'clients',
-     *         [
-     *             'firstName' => 'John',
-     *             'lastName' => 'Doe',
-     *         ]
-     *     );
+     * Sends a POST request to UNMS API.
      *
      * @param mixed[] $data
      *
@@ -154,16 +133,7 @@ class UcrmApi
     }
 
     /**
-     * Sends a PATCH request to UCRM API.
-     *
-     * Example usage to change first name of client with ID 42 to James:
-     *
-     *     $ucrmApi->patch(
-     *         'clients/42',
-     *         [
-     *             'firstName' => 'James',
-     *         ]
-     *     );
+     * Sends a PATCH request to UNMS API.
      *
      * @param mixed[] $data
      *
@@ -181,11 +151,7 @@ class UcrmApi
     }
 
     /**
-     * Sends a DELETE request to UCRM API.
-     *
-     * Example usage to delete client with ID 42:
-     *
-     *     $ucrmApi->delete('clients/42');
+     * Sends a DELETE request to UNMS API.
      *
      * @throws GuzzleException
      */
@@ -209,7 +175,7 @@ class UcrmApi
                 $options,
                 [
                     'headers' => [
-                        self::HEADER_AUTH_APP_KEY => $this->appKey,
+                        self::HEADER_AUTH_TOKEN => $this->authToken,
                     ],
                 ]
             )

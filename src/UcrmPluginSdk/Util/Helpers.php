@@ -2,7 +2,7 @@
 /*
  * This file is part of UCRM Plugin SDK.
  *
- * Copyright (c) 2018 Ubiquiti Networks
+ * Copyright (c) 2019 Ubiquiti Inc.
  *
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
@@ -19,7 +19,7 @@ class Helpers
         $parsed = parse_url($url);
 
         return $parsed
-            && strtolower($parsed['host'] ?? '') === 'localhost'
+            && in_array(strtolower($parsed['host'] ?? ''), ['localhost', '127.0.0.1'], true)
             && strtolower($parsed['scheme'] ?? '') === 'https';
     }
 }
