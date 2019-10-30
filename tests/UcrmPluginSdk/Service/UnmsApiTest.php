@@ -18,16 +18,16 @@ use GuzzleHttp\Psr7\Response;
 use Ubnt\UcrmPluginSdk\Exception\ConfigurationException;
 use Ubnt\UcrmPluginSdk\Exception\InvalidPluginRootPathException;
 
-class UcrmApiTest extends \PHPUnit\Framework\TestCase
+class UnmsApiTest extends \PHPUnit\Framework\TestCase
 {
-    private const TEST_APP_KEY = 'testAppKey/xyz';
+    private const TEST_AUTH_TOKEN = 'test-auth-token';
 
     public function testCreate(): void
     {
         $exception = null;
 
         try {
-            UcrmApi::create(__DIR__ . '/../../files_enabled');
+            UnmsApi::create(self::TEST_AUTH_TOKEN, __DIR__ . '/../../files_enabled');
         } catch (ConfigurationException | InvalidPluginRootPathException $exception) {
         }
 
@@ -39,7 +39,7 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
         $exception = null;
 
         try {
-            UcrmApi::create(__DIR__);
+            UnmsApi::create(self::TEST_AUTH_TOKEN, __DIR__);
         } catch (InvalidPluginRootPathException $exception) {
         }
 
@@ -51,7 +51,7 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
         $exception = null;
 
         try {
-            UcrmApi::create(__DIR__ . '/../../files_disabled');
+            UnmsApi::create(self::TEST_AUTH_TOKEN, __DIR__ . '/../../files_disabled');
         } catch (ConfigurationException $exception) {
         }
 
@@ -68,7 +68,7 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
         $clientHandle->request->returns($responseMock);
         $clientMock = $clientHandle->get();
 
-        $ucrmApi = new UcrmApi($clientMock, self::TEST_APP_KEY);
+        $ucrmApi = new UnmsApi($clientMock, self::TEST_AUTH_TOKEN);
         $endpoint = 'clients';
         $data = [
             'firstName' => 'John',
@@ -82,7 +82,7 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
             [
                 'json' => $data,
                 'headers' => [
-                    'x-auth-app-key' => self::TEST_APP_KEY,
+                    'x-auth-token' => self::TEST_AUTH_TOKEN,
                 ],
             ]
         );
@@ -98,7 +98,7 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
         $clientHandle->request->returns($responseMock);
         $clientMock = $clientHandle->get();
 
-        $ucrmApi = new UcrmApi($clientMock, self::TEST_APP_KEY);
+        $ucrmApi = new UnmsApi($clientMock, self::TEST_AUTH_TOKEN);
         $endpoint = 'clients';
         $data = [
             'firstName' => 'John',
@@ -112,7 +112,7 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
             [
                 'json' => $data,
                 'headers' => [
-                    'x-auth-app-key' => self::TEST_APP_KEY,
+                    'x-auth-token' => self::TEST_AUTH_TOKEN,
                 ],
             ]
         );
@@ -128,7 +128,7 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
         $clientHandle->request->returns($responseMock);
         $clientMock = $clientHandle->get();
 
-        $ucrmApi = new UcrmApi($clientMock, self::TEST_APP_KEY);
+        $ucrmApi = new UnmsApi($clientMock, self::TEST_AUTH_TOKEN);
         $endpoint = 'clients';
         $ucrmApi->delete($endpoint);
 
@@ -137,7 +137,7 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
             $endpoint,
             [
                 'headers' => [
-                    'x-auth-app-key' => self::TEST_APP_KEY,
+                    'x-auth-token' => self::TEST_AUTH_TOKEN,
                 ],
             ]
         );
@@ -160,7 +160,7 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
         $clientHandle->request->returns($responseMock);
         $clientMock = $clientHandle->get();
 
-        $ucrmApi = new UcrmApi($clientMock, self::TEST_APP_KEY);
+        $ucrmApi = new UnmsApi($clientMock, self::TEST_AUTH_TOKEN);
         $endpoint = 'clients';
         $query = [
             'order' => 'client.id',
@@ -175,7 +175,7 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
             [
                 'query' => $query,
                 'headers' => [
-                    'x-auth-app-key' => self::TEST_APP_KEY,
+                    'x-auth-token' => self::TEST_AUTH_TOKEN,
                 ],
             ]
         );
