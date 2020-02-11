@@ -130,7 +130,7 @@ class UcrmApi
      *
      * Example usage to create a new client:
      *
-     *     $ucrmApi->post(
+     *     $response = $ucrmApi->post(
      *         'clients',
      *         [
      *             'firstName' => 'John',
@@ -140,25 +140,33 @@ class UcrmApi
      *
      * @param mixed[] $data
      *
+     * @return mixed[]|string
+     *
      * @throws GuzzleException
+     * @throws JsonException
      */
-    public function post(string $endpoint, array $data = []): void
+    public function post(string $endpoint, array $data = [])
     {
-        $this->request(
+        $response = $this->request(
             'POST',
             $endpoint,
             [
                 'json' => $data,
             ]
         );
-    }
+  
+        if (stripos($response->getHeaderLine('content-type'), 'application/json') !== false) {
+            return Json::decode((string) $response->getBody());
+        }
 
+        return (string) $response->getBody();
+    }
     /**
      * Sends a PATCH request to UCRM API.
      *
      * Example usage to change first name of client with ID 42 to James:
      *
-     *     $ucrmApi->patch(
+     *     $response = $ucrmApi->patch(
      *         'clients/42',
      *         [
      *             'firstName' => 'James',
@@ -167,17 +175,26 @@ class UcrmApi
      *
      * @param mixed[] $data
      *
+     * @return mixed[]|string
+     *
      * @throws GuzzleException
+     * @throws JsonException
      */
-    public function patch(string $endpoint, array $data = []): void
+    public function patch(string $endpoint, array $data = [])
     {
-        $this->request(
+        $response = $this->request(
             'PATCH',
             $endpoint,
             [
                 'json' => $data,
             ]
         );
+  
+        if (stripos($response->getHeaderLine('content-type'), 'application/json') !== false) {
+            return Json::decode((string) $response->getBody());
+        }
+
+        return (string) $response->getBody();
     }
 
     /**
@@ -185,13 +202,23 @@ class UcrmApi
      *
      * Example usage to delete client with ID 42:
      *
-     *     $ucrmApi->delete('clients/42');
+     *     $response = $ucrmApi->delete('clients/42');
+     *
+     *
+     * @return mixed[]|string
      *
      * @throws GuzzleException
+     * @throws JsonException
      */
-    public function delete(string $endpoint): void
+    public function delete(string $endpoint)
     {
-        $this->request('DELETE', $endpoint);
+        $response = $this->request('DELETE', $endpoint);
+        
+        if (stripos($response->getHeaderLine('content-type'), 'application/json') !== false) {
+            return Json::decode((string) $response->getBody());
+        }
+
+        return (string) $response->getBody();        
     }
 
     /**
