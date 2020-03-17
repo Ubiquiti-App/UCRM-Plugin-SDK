@@ -6,4 +6,7 @@ parameters:
         - '#Only booleans are allowed in#'
 
         # false positive
-        - '#UcrmOptionsManager::loadOptions\(\) should return .+ but returns .+ UcrmOptions|null#'
+        - '#UcrmOptionsManager::loadOptions\(\) should return .+ but returns .+UcrmOptions\|null#'
+
+        # too strict
+        - '#Short ternary operator is not allowed#'
