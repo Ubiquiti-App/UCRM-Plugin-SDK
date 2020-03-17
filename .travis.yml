@@ -14,7 +14,7 @@ matrix:
         - php: nightly
 
 install:
-    - composer install --ignore-platform-reqs
+    - composer install
 
 script:
     - composer validate --strict
