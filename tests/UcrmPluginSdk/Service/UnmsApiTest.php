@@ -58,10 +58,17 @@ class UnmsApiTest extends \PHPUnit\Framework\TestCase
         self::assertInstanceOf(ConfigurationException::class, $exception);
     }
 
-    public function testPost(): void
+    /**
+     * @param mixed[]|string $expectedResult
+     *
+     * @dataProvider responseProvider
+     */
+    public function testPost(string $contentType, string $returnedBody, $expectedResult): void
     {
         $responseHandle = Phony::mock(Response::class);
         $responseHandle->getStatusCode->returns(201);
+        $responseHandle->getBody->returns($returnedBody);
+        $responseHandle->getHeaderLine->with('content-type')->returns($contentType);
         $responseMock = $responseHandle->get();
 
         $clientHandle = Phony::mock(Client::class);
@@ -74,7 +81,8 @@ class UnmsApiTest extends \PHPUnit\Framework\TestCase
             'firstName' => 'John',
             'lastName' => 'Doe',
         ];
-        $ucrmApi->post($endpoint, $data);
+        $result = $ucrmApi->post($endpoint, $data);
+        self::assertSame($expectedResult, $result);
 
         $clientHandle->request->calledWith(
             'POST',
@@ -88,10 +96,17 @@ class UnmsApiTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testPatch(): void
+    /**
+     * @param mixed[]|string $expectedResult
+     *
+     * @dataProvider responseProvider
+     */
+    public function testPatch(string $contentType, string $returnedBody, $expectedResult): void
     {
         $responseHandle = Phony::mock(Response::class);
         $responseHandle->getStatusCode->returns(200);
+        $responseHandle->getBody->returns($returnedBody);
+        $responseHandle->getHeaderLine->with('content-type')->returns($contentType);
         $responseMock = $responseHandle->get();
 
         $clientHandle = Phony::mock(Client::class);
@@ -104,7 +119,8 @@ class UnmsApiTest extends \PHPUnit\Framework\TestCase
             'firstName' => 'John',
             'lastName' => 'Doe',
         ];
-        $ucrmApi->patch($endpoint, $data);
+        $result = $ucrmApi->patch($endpoint, $data);
+        self::assertSame($expectedResult, $result);
 
         $clientHandle->request->calledWith(
             'PATCH',
@@ -146,12 +162,12 @@ class UnmsApiTest extends \PHPUnit\Framework\TestCase
     /**
      * @param mixed[]|string $expectedResult
      *
-     * @dataProvider getProvider
+     * @dataProvider responseProvider
      */
     public function testGet(string $contentType, string $returnedBody, $expectedResult): void
     {
         $responseHandle = Phony::mock(Response::class);
-        $responseHandle->getStatusCode->returns(201);
+        $responseHandle->getStatusCode->returns(200);
         $responseHandle->getBody->returns($returnedBody);
         $responseHandle->getHeaderLine->with('content-type')->returns($contentType);
         $responseMock = $responseHandle->get();
@@ -184,7 +200,7 @@ class UnmsApiTest extends \PHPUnit\Framework\TestCase
     /**
      * @return mixed[]
      */
-    public function getProvider(): array
+    public function responseProvider(): array
     {
         return [
             [

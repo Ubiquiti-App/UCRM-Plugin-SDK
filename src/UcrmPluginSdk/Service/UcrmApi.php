@@ -118,11 +118,7 @@ class UcrmApi
             ]
         );
 
-        if (stripos($response->getHeaderLine('content-type'), 'application/json') !== false) {
-            return Json::decode((string) $response->getBody());
-        }
-
-        return (string) $response->getBody();
+        return $this->handleResponse($response);
     }
 
     /**
@@ -140,17 +136,22 @@ class UcrmApi
      *
      * @param mixed[] $data
      *
+     * @return mixed[]|string
+     *
      * @throws GuzzleException
+     * @throws JsonException
      */
-    public function post(string $endpoint, array $data = []): void
+    public function post(string $endpoint, array $data = [])
     {
-        $this->request(
+        $response = $this->request(
             'POST',
             $endpoint,
             [
                 'json' => $data,
             ]
         );
+
+        return $this->handleResponse($response);
     }
 
     /**
@@ -167,17 +168,22 @@ class UcrmApi
      *
      * @param mixed[] $data
      *
+     * @return mixed[]|string
+     *
      * @throws GuzzleException
+     * @throws JsonException
      */
-    public function patch(string $endpoint, array $data = []): void
+    public function patch(string $endpoint, array $data = [])
     {
-        $this->request(
+        $response = $this->request(
             'PATCH',
             $endpoint,
             [
                 'json' => $data,
             ]
         );
+
+        return $this->handleResponse($response);
     }
 
     /**
@@ -214,5 +220,19 @@ class UcrmApi
                 ]
             )
         );
+    }
+
+    /**
+     * @return mixed[]|string
+     *
+     * @throws JsonException
+     */
+    private function handleResponse(ResponseInterface $response)
+    {
+        if (stripos($response->getHeaderLine('content-type'), 'application/json') !== false) {
+            return Json::decode((string) $response->getBody());
+        }
+
+        return (string) $response->getBody();
     }
 }
