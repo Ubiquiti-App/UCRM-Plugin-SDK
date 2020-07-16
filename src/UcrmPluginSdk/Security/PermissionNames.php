@@ -31,6 +31,7 @@ class PermissionNames
     public const BILLING_QUOTES = 'billing/quotes';
     public const BILLING_PAYMENTS = 'billing/payments';
     public const BILLING_REFUNDS = 'billing/refunds';
+    public const BILLING_CREDIT_NOTES = 'billing/credit_notes';
 
     // Scheduling
     public const SCHEDULING_MY_JOBS = 'scheduling/my_jobs';
