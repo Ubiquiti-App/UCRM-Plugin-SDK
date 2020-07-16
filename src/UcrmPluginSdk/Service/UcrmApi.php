@@ -229,10 +229,11 @@ class UcrmApi
      */
     private function handleResponse(ResponseInterface $response)
     {
+        $responseBody = (string) $response->getBody();
         if (stripos($response->getHeaderLine('content-type'), 'application/json') !== false) {
-            return Json::decode((string) $response->getBody());
+            return $responseBody !== '' ? Json::decode($responseBody) : $responseBody;
         }
 
-        return (string) $response->getBody();
+        return $responseBody;
     }
 }

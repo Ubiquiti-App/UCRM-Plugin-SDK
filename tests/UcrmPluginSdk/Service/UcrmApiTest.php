@@ -213,6 +213,11 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
                 'returnedBody' => '["lorem", "ipsum"]',
                 'expectedResult' => ['lorem', 'ipsum'],
             ],
+            [
+                'contentType' => 'application/json',
+                'returnedBody' => '',
+                'expectedResult' => '',
+            ],
         ];
     }
 }
