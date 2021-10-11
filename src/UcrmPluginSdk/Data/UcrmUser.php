@@ -94,6 +94,13 @@ class UcrmUser
     public $specialPermissions = [];
 
     /**
+     * Locale code.
+     *
+     * @var string
+     */
+    public $locale;
+
+    /**
      * @param mixed[] $data
      */
     public function __construct(array $data)
@@ -105,6 +112,7 @@ class UcrmUser
         $this->userGroup = $data['userGroup'];
         $this->permissions = $data['permissions'] ?? [];
         $this->specialPermissions = $data['specialPermissions'] ?? [];
+        $this->locale = $data['locale'];
     }
 
     /**

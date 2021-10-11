@@ -130,6 +130,7 @@ class UcrmUserTest extends \PHPUnit\Framework\TestCase
                 'specialPermissions' => [
                     SpecialPermissionNames::CLIENT_EXPORT => SpecialPermission::DENY,
                 ],
+                'locale' => 'en_US',
             ]
         );
     }
@@ -149,6 +150,7 @@ class UcrmUserTest extends \PHPUnit\Framework\TestCase
                 'specialPermissions' => [
                     SpecialPermissionNames::CLIENT_EXPORT => SpecialPermission::ALLOW,
                 ],
+                'locale' => 'en_US',
             ]
         );
     }
@@ -168,6 +170,7 @@ class UcrmUserTest extends \PHPUnit\Framework\TestCase
                 'specialPermissions' => [
                     SpecialPermissionNames::CLIENT_EXPORT => SpecialPermission::ALLOW,
                 ],
+                'locale' => 'en_US',
             ]
         );
     }
