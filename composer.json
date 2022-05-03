@@ -6,7 +6,7 @@
     "homepage": "https://github.com/Ubiquiti-App/UCRM-Plugin-SDK",
     "license": "MIT",
     "require": {
-        "php": ">=7.3.0",
+        "php": ">=7.4.0",
         "ext-curl": "*",
         "ext-json": "*",
         "guzzlehttp/guzzle": "~6.0",
@@ -30,7 +30,7 @@
         "phpstan/phpstan-strict-rules": "^0.12",
         "symplify/easy-coding-standard": "^10.2",
         "php-coveralls/php-coveralls": "^2.2",
-        "ocramius/package-versions": "^2.5"
+        "ocramius/package-versions": "^2.1"
     },
     "suggest": {
         "ext-zip": "Needed for pack-plugin script."
