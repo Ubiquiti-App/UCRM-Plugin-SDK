@@ -28,9 +28,9 @@
         "phpstan/phpstan": "^0.12.15",
         "eloquent/phpstan-phony": "^0.7.0",
         "phpstan/phpstan-strict-rules": "^0.12",
-        "symplify/easy-coding-standard": "^7.2",
+        "symplify/easy-coding-standard": "^10.2",
         "php-coveralls/php-coveralls": "^2.2",
-        "ocramius/package-versions": "<1.6"
+        "ocramius/package-versions": "^2.5"
     },
     "suggest": {
         "ext-zip": "Needed for pack-plugin script."
