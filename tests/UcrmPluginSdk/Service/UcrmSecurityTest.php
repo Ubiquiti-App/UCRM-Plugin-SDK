@@ -18,6 +18,7 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Utils;
 use Ubnt\UcrmPluginSdk\Data\UcrmUser;
 use Ubnt\UcrmPluginSdk\Exception\ConfigurationException;
 use Ubnt\UcrmPluginSdk\Exception\InvalidPluginRootPathException;
@@ -71,7 +72,7 @@ class UcrmSecurityTest extends \PHPUnit\Framework\TestCase
     ): void {
         $responseHandle = Phony::mock(Response::class);
         $responseHandle->getStatusCode->returns($responseCode);
-        $responseHandle->getBody->returns($responseBody);
+        $responseHandle->getBody->returns(Utils::streamFor($responseBody));
         $responseMock = $responseHandle->get();
 
         $clientHandle = Phony::mock(Client::class);

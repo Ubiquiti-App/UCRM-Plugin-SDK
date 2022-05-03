@@ -196,9 +196,9 @@ class UnmsApi
     private function handleResponse(ResponseInterface $response)
     {
         if (stripos($response->getHeaderLine('content-type'), 'application/json') !== false) {
-            return Json::decode((string) $response->getBody());
+            return Json::decode($response->getBody()->getContents());
         }
 
-        return (string) $response->getBody();
+        return $response->getBody()->getContents();
     }
 }

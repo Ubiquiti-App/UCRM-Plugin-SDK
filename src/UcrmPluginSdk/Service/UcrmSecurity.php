@@ -113,7 +113,7 @@ class UcrmSecurity
             throw $exception;
         }
 
-        return new UcrmUser(Json::decode((string) $response->getBody()));
+        return new UcrmUser(Json::decode($response->getBody()->getContents()));
     }
 
     private function getSanitizedCookie(string $name): ?string
