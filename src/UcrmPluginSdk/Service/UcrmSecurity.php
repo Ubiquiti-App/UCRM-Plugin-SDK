@@ -59,7 +59,7 @@ class UcrmSecurity
         $ucrmOptionsManager = new UcrmOptionsManager($pluginRootPath);
         $options = $ucrmOptionsManager->loadOptions();
 
-        $ucrmUrl = ($options->ucrmLocalUrl ?: $options->ucrmPublicUrl) ?? '';
+        $ucrmUrl = $options->ucrmLocalUrl ?? $options->ucrmPublicUrl ?? '';
         if ($ucrmUrl === '') {
             throw new ConfigurationException('UCRM URL is missing in plugin configuration.');
         }
@@ -105,8 +105,7 @@ class UcrmSecurity
                 ]
             );
         } catch (ClientException $exception) {
-            $response = $exception->getResponse();
-            if ($response && $response->getStatusCode() === 403) {
+            if ($exception->getResponse()->getStatusCode() === 403) {
                 return null;
             }
 

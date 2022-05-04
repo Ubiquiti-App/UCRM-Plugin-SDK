@@ -8,5 +8,6 @@ parameters:
         # false positive
         - '#UcrmOptionsManager::loadOptions\(\) should return .+ but returns .+UcrmOptions\|null#'
 
-        # too strict
-        - '#Short ternary operator is not allowed#'
+        # mixed[] return type of json_decode
+        - '#Method Ubnt\\UcrmPluginSdk\\Util\\Json::decode\(\) should return array but returns mixed.#'
+        - '#Property Ubnt\\UcrmPluginSdk\\Data\\UcrmUser::.+ \(.+\) does not accept mixed.#'

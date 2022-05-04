@@ -67,7 +67,7 @@ class UcrmApi
         $ucrmOptionsManager = new UcrmOptionsManager($pluginRootPath);
         $options = $ucrmOptionsManager->loadOptions();
 
-        $ucrmUrl = ($options->ucrmLocalUrl ?: $options->ucrmPublicUrl) ?? '';
+        $ucrmUrl = $options->ucrmLocalUrl ?? $options->ucrmPublicUrl ?? '';
         if ($ucrmUrl === '') {
             throw new ConfigurationException('UCRM URL is missing in plugin configuration.');
         }
