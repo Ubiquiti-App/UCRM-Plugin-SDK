@@ -53,6 +53,7 @@ abstract class AbstractOptionsManager
             );
         }
 
-        return Json::decode(file_get_contents($path) ?: '[]');
+        $json = file_get_contents($path);
+        return Json::decode($json !== false ? $json : '[]');
     }
 }

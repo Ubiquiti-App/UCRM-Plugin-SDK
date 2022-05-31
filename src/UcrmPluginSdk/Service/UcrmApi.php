@@ -67,7 +67,7 @@ class UcrmApi
         $ucrmOptionsManager = new UcrmOptionsManager($pluginRootPath);
         $options = $ucrmOptionsManager->loadOptions();
 
-        $ucrmUrl = ($options->ucrmLocalUrl ?: $options->ucrmPublicUrl) ?? '';
+        $ucrmUrl = $options->ucrmLocalUrl ?? $options->ucrmPublicUrl ?? '';
         if ($ucrmUrl === '') {
             throw new ConfigurationException('UCRM URL is missing in plugin configuration.');
         }
@@ -229,7 +229,7 @@ class UcrmApi
      */
     private function handleResponse(ResponseInterface $response)
     {
-        $responseBody = (string) $response->getBody();
+        $responseBody = $response->getBody()->getContents();
         if (stripos($response->getHeaderLine('content-type'), 'application/json') !== false) {
             return $responseBody !== '' ? Json::decode($responseBody) : $responseBody;
         }

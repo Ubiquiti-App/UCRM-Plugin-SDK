@@ -6,11 +6,11 @@
     "homepage": "https://github.com/Ubiquiti-App/UCRM-Plugin-SDK",
     "license": "MIT",
     "require": {
-        "php": ">=7.3.0",
+        "php": ">=7.4.0",
         "ext-curl": "*",
         "ext-json": "*",
-        "guzzlehttp/guzzle": "~6.0",
-        "symfony/filesystem": "^4.1"
+        "guzzlehttp/guzzle": "~7.0",
+        "symfony/filesystem": "^5.4"
     },
     "autoload": {
         "psr-4": {
@@ -23,14 +23,14 @@
         ]
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5",
-        "eloquent/phony-phpunit": "^5.0",
-        "phpstan/phpstan": "^0.12.15",
-        "eloquent/phpstan-phony": "^0.7.0",
-        "phpstan/phpstan-strict-rules": "^0.12",
-        "symplify/easy-coding-standard": "^7.2",
-        "php-coveralls/php-coveralls": "^2.2",
-        "ocramius/package-versions": "<1.6"
+        "phpunit/phpunit": "^9.5",
+        "eloquent/phony-phpunit": "^7.1",
+        "phpstan/phpstan": "^1.6.4",
+        "eloquent/phpstan-phony": "^0.8.0",
+        "phpstan/phpstan-strict-rules": "^1.2",
+        "symplify/easy-coding-standard": "^10.2",
+        "php-coveralls/php-coveralls": "^2.5",
+        "ocramius/package-versions": "<2.2.0"
     },
     "suggest": {
         "ext-zip": "Needed for pack-plugin script."

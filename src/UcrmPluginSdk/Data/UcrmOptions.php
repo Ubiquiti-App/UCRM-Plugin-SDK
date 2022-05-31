@@ -37,7 +37,7 @@ class UcrmOptions
     public $pluginId;
 
     /**
-     * @var string
+     * @var string|null
      */
     public $ucrmPublicUrl;
 

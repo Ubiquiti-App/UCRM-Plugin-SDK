@@ -15,6 +15,7 @@ namespace Ubnt\UcrmPluginSdk\Service;
 use Eloquent\Phony\Phpunit\Phony;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Utils;
 use Ubnt\UcrmPluginSdk\Exception\ConfigurationException;
 use Ubnt\UcrmPluginSdk\Exception\InvalidPluginRootPathException;
 
@@ -67,7 +68,7 @@ class UnmsApiTest extends \PHPUnit\Framework\TestCase
     {
         $responseHandle = Phony::mock(Response::class);
         $responseHandle->getStatusCode->returns(201);
-        $responseHandle->getBody->returns($returnedBody);
+        $responseHandle->getBody->returns(Utils::streamFor($returnedBody));
         $responseHandle->getHeaderLine->with('content-type')->returns($contentType);
         $responseMock = $responseHandle->get();
 
@@ -105,7 +106,7 @@ class UnmsApiTest extends \PHPUnit\Framework\TestCase
     {
         $responseHandle = Phony::mock(Response::class);
         $responseHandle->getStatusCode->returns(200);
-        $responseHandle->getBody->returns($returnedBody);
+        $responseHandle->getBody->returns(Utils::streamFor($returnedBody));
         $responseHandle->getHeaderLine->with('content-type')->returns($contentType);
         $responseMock = $responseHandle->get();
 
@@ -168,7 +169,7 @@ class UnmsApiTest extends \PHPUnit\Framework\TestCase
     {
         $responseHandle = Phony::mock(Response::class);
         $responseHandle->getStatusCode->returns(200);
-        $responseHandle->getBody->returns($returnedBody);
+        $responseHandle->getBody->returns(Utils::streamFor($returnedBody));
         $responseHandle->getHeaderLine->with('content-type')->returns($contentType);
         $responseMock = $responseHandle->get();
 
