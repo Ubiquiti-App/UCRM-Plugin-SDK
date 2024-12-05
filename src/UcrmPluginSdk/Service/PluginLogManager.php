@@ -24,15 +24,9 @@ class PluginLogManager
 {
     private const PLUGIN_LOG = 'data/plugin.log';
 
-    /**
-     * @var string
-     */
-    private $pluginLogPath;
+    private string $pluginLogPath;
 
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
+    private Filesystem $filesystem;
 
     /**
      * Plugin root path is configured automatically if standard directory structure is used.

@@ -27,7 +27,7 @@ class PluginConfigManager extends AbstractOptionsManager
     /**
      * @var mixed[]
      */
-    private $config = [];
+    private array $config = [];
 
     /**
      * Plugin root path is configured automatically if standard directory structure is used.

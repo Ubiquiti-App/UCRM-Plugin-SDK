@@ -21,33 +21,15 @@ namespace Ubnt\UcrmPluginSdk\Data;
  */
 class UcrmOptions
 {
-    /**
-     * @var string
-     */
-    public $pluginAppKey;
+    public ?string $pluginAppKey;
 
-    /**
-     * @var string
-     */
-    public $pluginPublicUrl;
+    public ?string $pluginPublicUrl;
 
-    /**
-     * @var int|null
-     */
-    public $pluginId;
+    public ?int $pluginId;
 
-    /**
-     * @var string|null
-     */
-    public $ucrmPublicUrl;
+    public ?string $ucrmPublicUrl;
 
-    /**
-     * @var string|null
-     */
-    public $ucrmLocalUrl;
+    public ?string $ucrmLocalUrl;
 
-    /**
-     * @var string|null
-     */
-    public $unmsLocalUrl;
+    public ?string $unmsLocalUrl;
 }

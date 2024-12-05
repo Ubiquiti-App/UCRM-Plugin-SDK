@@ -25,10 +25,7 @@ class UcrmOptionsManager extends AbstractOptionsManager
 {
     private const UCRM_JSON = 'ucrm.json';
 
-    /**
-     * @var UcrmOptions|null
-     */
-    private $options;
+    private ?UcrmOptions $options = null;
 
     /**
      * Plugin root path is configured automatically if standard directory structure is used.
