@@ -29,14 +29,9 @@ use Ubnt\UcrmPluginSdk\Util\Json;
  */
 class UcrmSecurity
 {
-    /**
-     * @var Client
-     */
-    private $client;
-
-    public function __construct(Client $client)
-    {
-        $this->client = $client;
+    public function __construct(
+        private Client $client,
+    ) {
     }
 
     /**

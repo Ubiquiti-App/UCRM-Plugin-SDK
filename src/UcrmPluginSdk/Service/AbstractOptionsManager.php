@@ -18,10 +18,7 @@ use Ubnt\UcrmPluginSdk\Util\Json;
 
 abstract class AbstractOptionsManager
 {
-    /**
-     * @var string
-     */
-    private $pluginRootPath;
+    private string $pluginRootPath;
 
     /**
      * Plugin root path is configured automatically if standard directory structure is used.

@@ -28,22 +28,12 @@ use Ubnt\UcrmPluginSdk\Util\Json;
  */
 class UnmsApi
 {
-    private const HEADER_AUTH_TOKEN = 'x-auth-token';
+    protected const HEADER_AUTH_TOKEN = 'x-auth-token';
 
-    /**
-     * @var Client
-     */
-    private $client;
-
-    /**
-     * @var string
-     */
-    private $authToken;
-
-    public function __construct(Client $client, string $authToken)
-    {
-        $this->client = $client;
-        $this->authToken = $authToken;
+    public function __construct(
+        protected Client $client,
+        protected string $authToken
+    ) {
     }
 
     /**
@@ -171,7 +161,7 @@ class UnmsApi
      *
      * @throws GuzzleException
      */
-    private function request(string $method, string $endpoint, array $options = []): ResponseInterface
+    protected function request(string $method, string $endpoint, array $options = []): ResponseInterface
     {
         return $this->client->request(
             $method,
@@ -193,7 +183,7 @@ class UnmsApi
      *
      * @throws JsonException
      */
-    private function handleResponse(ResponseInterface $response)
+    protected function handleResponse(ResponseInterface $response)
     {
         if (stripos($response->getHeaderLine('content-type'), 'application/json') !== false) {
             return Json::decode($response->getBody()->getContents());

@@ -28,22 +28,12 @@ use Ubnt\UcrmPluginSdk\Util\Json;
  */
 class UcrmApi
 {
-    private const HEADER_AUTH_APP_KEY = 'x-auth-app-key';
+    protected const HEADER_AUTH_APP_KEY = 'x-auth-app-key';
 
-    /**
-     * @var Client
-     */
-    private $client;
-
-    /**
-     * @var string
-     */
-    private $appKey;
-
-    public function __construct(Client $client, string $appKey)
-    {
-        $this->client = $client;
-        $this->appKey = $appKey;
+    public function __construct(
+        protected Client $client,
+        protected string $appKey,
+    ) {
     }
 
     /**
@@ -85,7 +75,7 @@ class UcrmApi
             ]
         );
 
-        return new self($client, $options->pluginAppKey);
+        return new self($client, $options->pluginAppKey ?? '');
     }
 
     /**
@@ -205,7 +195,7 @@ class UcrmApi
      *
      * @throws GuzzleException
      */
-    private function request(string $method, string $endpoint, array $options = []): ResponseInterface
+    protected function request(string $method, string $endpoint, array $options = []): ResponseInterface
     {
         return $this->client->request(
             $method,
@@ -227,7 +217,7 @@ class UcrmApi
      *
      * @throws JsonException
      */
-    private function handleResponse(ResponseInterface $response)
+    protected function handleResponse(ResponseInterface $response)
     {
         $responseBody = $response->getBody()->getContents();
         if (stripos($response->getHeaderLine('content-type'), 'application/json') !== false) {

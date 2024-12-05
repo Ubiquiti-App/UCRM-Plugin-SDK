@@ -28,41 +28,31 @@ class UcrmUser
 {
     /**
      * ID of the logged in user.
-     *
-     * @var int
      */
-    public $userId;
+    public int $userId;
 
     /**
      * Username used to log in to UCRM.
-     *
-     * @var string
      */
-    public $username;
+    public string $username;
 
     /**
      * Will be true if the logged in user is client, false in case of admin.
-     *
-     * @var bool
      */
-    public $isClient;
+    public bool $isClient;
 
     /**
      * ID of the logged in client.
      *
      * NULL if the user is admin.
-     *
-     * @var int|null
      */
-    public $clientId;
+    public ?int $clientId;
 
     /**
      * Name of the user group where the user belongs.
      * NULL if the user is client.
-     *
-     * @var string|null
      */
-    public $userGroup;
+    public ?string $userGroup;
 
     /**
      * List of user's permissions. Can have the following values:
@@ -77,7 +67,7 @@ class UcrmUser
      *
      * @var string[]
      */
-    public $permissions = [];
+    public array $permissions = [];
 
     /**
      * List of user's special permissions. Can have the following values:
@@ -91,14 +81,12 @@ class UcrmUser
      *
      * @var string[]
      */
-    public $specialPermissions = [];
+    public array $specialPermissions = [];
 
     /**
      * Locale code.
-     *
-     * @var string
      */
-    public $locale;
+    public string $locale;
 
     /**
      * @param mixed[] $data

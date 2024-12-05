@@ -59,7 +59,7 @@ return static function (ECSConfig $containerConfigurator): void {
         ->call('configure', [
             [
                 'elements' => [
-                    'property' => 'only_if_meta',
+                    'property' => 'one',
                     'method' => 'one',
                 ],
             ],
