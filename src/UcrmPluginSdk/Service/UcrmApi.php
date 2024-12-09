@@ -25,12 +25,14 @@ use Ubnt\UcrmPluginSdk\Util\Json;
  * This class can be used to call UCRM API.
  *
  * You can find API documentation at https://help.ubnt.com/hc/en-us/articles/115003906007-UCRM-API-Usage
+ *
+ * @phpstan-consistent-constructor
  */
 class UcrmApi
 {
     protected const HEADER_AUTH_APP_KEY = 'x-auth-app-key';
 
-    final public function __construct(
+    public function __construct(
         protected Client $client,
         protected string $appKey,
     ) {

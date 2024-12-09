@@ -25,12 +25,14 @@ use Ubnt\UcrmPluginSdk\Util\Json;
  * This class can be used to call UNMS API.
  *
  * You can find API documentation at https://help.ubnt.com/hc/en-us/articles/115003906007-UCRM-API-Usage
+ *
+ * @phpstan-consistent-constructor
  */
 class UnmsApi
 {
     protected const HEADER_AUTH_TOKEN = 'x-auth-token';
 
-    final public function __construct(
+    public function __construct(
         protected Client $client,
         protected string $authToken
     ) {
