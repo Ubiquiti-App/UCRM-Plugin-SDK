@@ -25,6 +25,8 @@ use Ubnt\UcrmPluginSdk\Util\Json;
  * This class can be used to call UNMS API.
  *
  * You can find API documentation at https://help.ubnt.com/hc/en-us/articles/115003906007-UCRM-API-Usage
+ *
+ * @phpstan-consistent-constructor
  */
 class UnmsApi
 {
@@ -74,7 +76,7 @@ class UnmsApi
             ]
         );
 
-        return new self($client, $unmsAuthToken);
+        return new static($client, $unmsAuthToken);
     }
 
     /**

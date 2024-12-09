@@ -25,6 +25,8 @@ use Ubnt\UcrmPluginSdk\Util\Json;
  * This class can be used to call UCRM API.
  *
  * You can find API documentation at https://help.ubnt.com/hc/en-us/articles/115003906007-UCRM-API-Usage
+ *
+ * @phpstan-consistent-constructor
  */
 class UcrmApi
 {
@@ -75,7 +77,7 @@ class UcrmApi
             ]
         );
 
-        return new self($client, $options->pluginAppKey ?? '');
+        return new static($client, $options->pluginAppKey ?? '');
     }
 
     /**
