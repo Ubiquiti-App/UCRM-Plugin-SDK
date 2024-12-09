@@ -30,7 +30,7 @@ class UnmsApi
 {
     protected const HEADER_AUTH_TOKEN = 'x-auth-token';
 
-    public function __construct(
+    final public function __construct(
         protected Client $client,
         protected string $authToken
     ) {
@@ -74,7 +74,7 @@ class UnmsApi
             ]
         );
 
-        return new self($client, $unmsAuthToken);
+        return new static($client, $unmsAuthToken);
     }
 
     /**

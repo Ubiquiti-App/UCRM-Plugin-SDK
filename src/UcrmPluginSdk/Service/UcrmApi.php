@@ -30,7 +30,7 @@ class UcrmApi
 {
     protected const HEADER_AUTH_APP_KEY = 'x-auth-app-key';
 
-    public function __construct(
+    final public function __construct(
         protected Client $client,
         protected string $appKey,
     ) {
@@ -75,7 +75,7 @@ class UcrmApi
             ]
         );
 
-        return new self($client, $options->pluginAppKey ?? '');
+        return new static($client, $options->pluginAppKey ?? '');
     }
 
     /**
