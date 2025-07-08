@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Ubnt\UcrmPluginSdk\Service;
 
-use Eloquent\Phony\Phpunit\Phony;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
@@ -70,18 +69,18 @@ class UcrmSecurityTest extends \PHPUnit\Framework\TestCase
         bool $expectedIsClient,
         bool $expectedPermissionsFilled
     ): void {
-        $responseHandle = Phony::mock(Response::class);
-        $responseHandle->getStatusCode->returns($responseCode);
-        $responseHandle->getBody->returns(Utils::streamFor($responseBody));
-        $responseMock = $responseHandle->get();
+        $responseMock = $this->createMock(Response::class);
+        $responseMock->method('getStatusCode')->willReturn($responseCode);
+        $responseMock->method('getBody')->willReturn(Utils::streamFor($responseBody));
 
-        $clientHandle = Phony::mock(Client::class);
+        $clientMock = $this->createMock(Client::class);
         if ($responseCode !== 200) {
-            $clientHandle->request->throws(new ClientException('', Phony::mock(Request::class)->get(), $responseMock));
+            $requestMock = $this->createMock(Request::class);
+            $clientMock->method('request')
+                ->willThrowException(new ClientException('', $requestMock, $responseMock));
         } else {
-            $clientHandle->request->returns($responseMock);
+            $clientMock->method('request')->willReturn($responseMock);
         }
-        $clientMock = $clientHandle->get();
 
         $ucrmSecurity = new UcrmSecurity($clientMock);
 
