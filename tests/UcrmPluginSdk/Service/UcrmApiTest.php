@@ -12,14 +12,14 @@ declare(strict_types=1);
 
 namespace Ubnt\UcrmPluginSdk\Service;
 
-use Eloquent\Phony\Phpunit\Phony;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Utils;
+use PHPUnit\Framework\TestCase;
 use Ubnt\UcrmPluginSdk\Exception\ConfigurationException;
 use Ubnt\UcrmPluginSdk\Exception\InvalidPluginRootPathException;
 
-class UcrmApiTest extends \PHPUnit\Framework\TestCase
+class UcrmApiTest extends TestCase
 {
     private const TEST_APP_KEY = 'testAppKey/xyz';
 
@@ -66,15 +66,28 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
      */
     public function testPost(string $contentType, string $returnedBody, $expectedResult): void
     {
-        $responseHandle = Phony::mock(Response::class);
-        $responseHandle->getStatusCode->returns(201);
-        $responseHandle->getBody->returns(Utils::streamFor($returnedBody));
-        $responseHandle->getHeaderLine->with('content-type')->returns($contentType);
-        $responseMock = $responseHandle->get();
+        $responseMock = $this->createMock(Response::class);
+        $responseMock->method('getStatusCode')->willReturn(201);
+        $responseMock->method('getBody')->willReturn(Utils::streamFor($returnedBody));
+        $responseMock->method('getHeaderLine')->with('content-type')->willReturn($contentType);
 
-        $clientHandle = Phony::mock(Client::class);
-        $clientHandle->request->returns($responseMock);
-        $clientMock = $clientHandle->get();
+        $clientMock = $this->createMock(Client::class);
+        $clientMock->expects(self::once())
+            ->method('request')
+            ->with(
+                'POST',
+                'clients',
+                [
+                    'json' => [
+                        'firstName' => 'John',
+                        'lastName' => 'Doe',
+                    ],
+                    'headers' => [
+                        'x-auth-app-key' => self::TEST_APP_KEY,
+                    ],
+                ]
+            )
+            ->willReturn($responseMock);
 
         $ucrmApi = new UcrmApi($clientMock, self::TEST_APP_KEY);
         $endpoint = 'clients';
@@ -84,17 +97,6 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
         ];
         $result = $ucrmApi->post($endpoint, $data);
         self::assertSame($expectedResult, $result);
-
-        $clientHandle->request->calledWith(
-            'POST',
-            $endpoint,
-            [
-                'json' => $data,
-                'headers' => [
-                    'x-auth-app-key' => self::TEST_APP_KEY,
-                ],
-            ]
-        );
     }
 
     /**
@@ -104,15 +106,28 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
      */
     public function testPatch(string $contentType, string $returnedBody, $expectedResult): void
     {
-        $responseHandle = Phony::mock(Response::class);
-        $responseHandle->getStatusCode->returns(200);
-        $responseHandle->getBody->returns(Utils::streamFor($returnedBody));
-        $responseHandle->getHeaderLine->with('content-type')->returns($contentType);
-        $responseMock = $responseHandle->get();
+        $responseMock = $this->createMock(Response::class);
+        $responseMock->method('getStatusCode')->willReturn(200);
+        $responseMock->method('getBody')->willReturn(Utils::streamFor($returnedBody));
+        $responseMock->method('getHeaderLine')->with('content-type')->willReturn($contentType);
 
-        $clientHandle = Phony::mock(Client::class);
-        $clientHandle->request->returns($responseMock);
-        $clientMock = $clientHandle->get();
+        $clientMock = $this->createMock(Client::class);
+        $clientMock->expects(self::once())
+            ->method('request')
+            ->with(
+                'PATCH',
+                'clients',
+                [
+                    'json' => [
+                        'firstName' => 'John',
+                        'lastName' => 'Doe',
+                    ],
+                    'headers' => [
+                        'x-auth-app-key' => self::TEST_APP_KEY,
+                    ],
+                ]
+            )
+            ->willReturn($responseMock);
 
         $ucrmApi = new UcrmApi($clientMock, self::TEST_APP_KEY);
         $endpoint = 'clients';
@@ -122,42 +137,30 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
         ];
         $result = $ucrmApi->patch($endpoint, $data);
         self::assertSame($expectedResult, $result);
-
-        $clientHandle->request->calledWith(
-            'PATCH',
-            $endpoint,
-            [
-                'json' => $data,
-                'headers' => [
-                    'x-auth-app-key' => self::TEST_APP_KEY,
-                ],
-            ]
-        );
     }
 
     public function testDelete(): void
     {
-        $responseHandle = Phony::mock(Response::class);
-        $responseHandle->getStatusCode->returns(200);
-        $responseMock = $responseHandle->get();
+        $responseMock = $this->createMock(Response::class);
+        $responseMock->method('getStatusCode')->willReturn(200);
 
-        $clientHandle = Phony::mock(Client::class);
-        $clientHandle->request->returns($responseMock);
-        $clientMock = $clientHandle->get();
+        $clientMock = $this->createMock(Client::class);
+        $clientMock->expects(self::once())
+            ->method('request')
+            ->with(
+                'DELETE',
+                'clients',
+                [
+                    'headers' => [
+                        'x-auth-app-key' => self::TEST_APP_KEY,
+                    ],
+                ]
+            )
+            ->willReturn($responseMock);
 
         $ucrmApi = new UcrmApi($clientMock, self::TEST_APP_KEY);
         $endpoint = 'clients';
         $ucrmApi->delete($endpoint);
-
-        $clientHandle->request->calledWith(
-            'DELETE',
-            $endpoint,
-            [
-                'headers' => [
-                    'x-auth-app-key' => self::TEST_APP_KEY,
-                ],
-            ]
-        );
     }
 
     /**
@@ -167,15 +170,28 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
      */
     public function testGet(string $contentType, string $returnedBody, $expectedResult): void
     {
-        $responseHandle = Phony::mock(Response::class);
-        $responseHandle->getStatusCode->returns(200);
-        $responseHandle->getBody->returns(Utils::streamFor($returnedBody));
-        $responseHandle->getHeaderLine->with('content-type')->returns($contentType);
-        $responseMock = $responseHandle->get();
+        $responseMock = $this->createMock(Response::class);
+        $responseMock->method('getStatusCode')->willReturn(200);
+        $responseMock->method('getBody')->willReturn(Utils::streamFor($returnedBody));
+        $responseMock->method('getHeaderLine')->with('content-type')->willReturn($contentType);
 
-        $clientHandle = Phony::mock(Client::class);
-        $clientHandle->request->returns($responseMock);
-        $clientMock = $clientHandle->get();
+        $clientMock = $this->createMock(Client::class);
+        $clientMock->expects(self::once())
+            ->method('request')
+            ->with(
+                'GET',
+                'clients',
+                [
+                    'query' => [
+                        'order' => 'client.id',
+                        'direction' => 'DESC',
+                    ],
+                    'headers' => [
+                        'x-auth-app-key' => self::TEST_APP_KEY,
+                    ],
+                ]
+            )
+            ->willReturn($responseMock);
 
         $ucrmApi = new UcrmApi($clientMock, self::TEST_APP_KEY);
         $endpoint = 'clients';
@@ -185,17 +201,6 @@ class UcrmApiTest extends \PHPUnit\Framework\TestCase
         ];
         $result = $ucrmApi->get($endpoint, $query);
         self::assertSame($expectedResult, $result);
-
-        $clientHandle->request->calledWith(
-            'GET',
-            $endpoint,
-            [
-                'query' => $query,
-                'headers' => [
-                    'x-auth-app-key' => self::TEST_APP_KEY,
-                ],
-            ]
-        );
     }
 
     /**
