@@ -89,6 +89,21 @@ class UcrmUser
     public string $locale;
 
     /**
+     * @var bool True if current user only has access to specific organization, false otherwise.
+     */
+    public bool $isOrganizationScopeUser = false;
+
+    /**
+     * @var int|null Contains ID of the organization the user has access to if organization scoped.
+     */
+    public ?int $scopedOrganizationId = null;
+
+    /**
+     * @var bool True if current user only has access to their own clients.
+     */
+    public bool $isClientScopeUser = false;
+
+    /**
      * @param mixed[] $data
      */
     public function __construct(array $data)
@@ -101,6 +116,12 @@ class UcrmUser
         $this->permissions = $data['permissions'] ?? [];
         $this->specialPermissions = $data['specialPermissions'] ?? [];
         $this->locale = $data['locale'];
+        $this->isOrganizationScopeUser = (bool) ($data['isOrganizationScopeUser'] ?? false);
+        $scopedOrganizationId = $data['scopedOrganizationId'] ?? null;
+        if ($scopedOrganizationId !== null) {
+            $this->scopedOrganizationId = (int) $scopedOrganizationId;
+        }
+        $this->isClientScopeUser = (bool) ($data['isClientScopeUser'] ?? false);
     }
 
     /**

@@ -115,6 +115,101 @@ class UcrmUserTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @dataProvider scopeFieldsProvider
+     *
+     * @param mixed[] $data
+     */
+    public function testScopeFields(
+        array $data,
+        bool $expectedIsOrganizationScopeUser,
+        ?int $expectedScopedOrganizationId,
+        bool $expectedIsClientScopeUser
+    ): void {
+        $ucrmUser = new UcrmUser($this->createBaseUcrmUserData($data));
+
+        self::assertSame($expectedIsOrganizationScopeUser, $ucrmUser->isOrganizationScopeUser);
+        self::assertSame($expectedScopedOrganizationId, $ucrmUser->scopedOrganizationId);
+        self::assertSame($expectedIsClientScopeUser, $ucrmUser->isClientScopeUser);
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function scopeFieldsProvider(): array
+    {
+        return [
+            'missing scope keys default to false/null' => [
+                'data' => [],
+                'expectedIsOrganizationScopeUser' => false,
+                'expectedScopedOrganizationId' => null,
+                'expectedIsClientScopeUser' => false,
+            ],
+            'organization scoped user' => [
+                'data' => [
+                    'isOrganizationScopeUser' => true,
+                    'scopedOrganizationId' => 5,
+                    'isClientScopeUser' => false,
+                ],
+                'expectedIsOrganizationScopeUser' => true,
+                'expectedScopedOrganizationId' => 5,
+                'expectedIsClientScopeUser' => false,
+            ],
+            'client scoped user' => [
+                'data' => [
+                    'isOrganizationScopeUser' => false,
+                    'scopedOrganizationId' => null,
+                    'isClientScopeUser' => true,
+                ],
+                'expectedIsOrganizationScopeUser' => false,
+                'expectedScopedOrganizationId' => null,
+                'expectedIsClientScopeUser' => true,
+            ],
+            'unscoped user' => [
+                'data' => [
+                    'isOrganizationScopeUser' => false,
+                    'scopedOrganizationId' => null,
+                    'isClientScopeUser' => false,
+                ],
+                'expectedIsOrganizationScopeUser' => false,
+                'expectedScopedOrganizationId' => null,
+                'expectedIsClientScopeUser' => false,
+            ],
+            'scopedOrganizationId is cast to int' => [
+                'data' => [
+                    'isOrganizationScopeUser' => true,
+                    'scopedOrganizationId' => '7',
+                    'isClientScopeUser' => false,
+                ],
+                'expectedIsOrganizationScopeUser' => true,
+                'expectedScopedOrganizationId' => 7,
+                'expectedIsClientScopeUser' => false,
+            ],
+        ];
+    }
+
+    /**
+     * @param mixed[] $overrides
+     *
+     * @return mixed[]
+     */
+    private function createBaseUcrmUserData(array $overrides): array
+    {
+        return array_merge(
+            [
+                'userId' => 1,
+                'username' => 'admin',
+                'isClient' => false,
+                'clientId' => null,
+                'userGroup' => 'Admin Group',
+                'permissions' => [],
+                'specialPermissions' => [],
+                'locale' => 'en_US',
+            ],
+            $overrides
+        );
+    }
+
     private function createDeniedUcrmUser(): UcrmUser
     {
         return new UcrmUser(
